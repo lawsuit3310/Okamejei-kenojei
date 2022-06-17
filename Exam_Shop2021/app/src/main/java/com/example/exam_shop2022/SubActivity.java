@@ -12,12 +12,12 @@ public class SubActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
         findViewById(R.id.button).setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.button)
+        if (v.getId() == R.id.button){
             this.finish();
+        }
     }
 }
