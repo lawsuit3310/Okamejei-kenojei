@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
+        count = Integer.parseInt(edit_count.getText().toString());
         switch (v.getId()){
             case R.id.radio1:
                 img_product_main.setImageResource(R.drawable.product1);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_plus:
                 Log.d("JB",""+true);
-                edit_count.setText(count+1);
+                edit_count.setText(count+1 + "");
                 sumTotal();
                 break;
 
