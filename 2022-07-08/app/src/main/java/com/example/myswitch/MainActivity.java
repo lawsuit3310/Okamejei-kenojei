@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -43,19 +44,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.radio_button1:
-                img_view.setImageResource(R.drawable.an8);
+                radiobtn1Select();
                 break;
             case R.id.radio_button2:
-                img_view.setImageResource(R.drawable.an9);
+                radiobtn2Select();
                 break;
             case R.id.radio_button3:
-                img_view.setImageResource(R.drawable.an10);
+                radiobtn3Select();
                 break;
             case R.id.btn_begin:
+                ((RadioButton) findViewById(R.id.radio_button1)).setChecked(true);
+                radiobtn1Select();
+                ((Switch) findViewById(R.id.switch1)).setChecked(false);
+                layout_1.setVisibility(View.INVISIBLE);
                 break;
             case R.id.btn_exit:
                 this.finish();
                 break;
         }
+
+
+    }
+
+    void radiobtn1Select() {
+        img_view.setImageResource(R.drawable.an8);
+    }
+
+    void radiobtn2Select() {
+        img_view.setImageResource(R.drawable.an9);
+    }
+
+    void radiobtn3Select() {
+        img_view.setImageResource(R.drawable.an10);
     }
 }
