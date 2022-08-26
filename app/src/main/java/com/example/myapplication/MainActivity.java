@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.*;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Fragment1 f1;
     Fragment2 f2;
