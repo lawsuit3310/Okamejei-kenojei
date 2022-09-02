@@ -90,12 +90,15 @@ public class Fragment1 extends Fragment implements View.OnClickListener {
         Log.d("JB", Content);
         editText.setHint(Content);
 
-        datePicker.init(2022, 7, 26, new DatePicker.OnDateChangedListener() {
+        datePicker.init(cYear, cMonth, cDay, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 String str = String.format("%d년 %d월 %d일",year,monthOfYear+1, dayOfMonth);
                 Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                 fileName = year + "_" + (monthOfYear+1) + "_" + dayOfMonth + ".txt";
+                Content = readFile(fileName);
+                Log.d("JB", Content);
+                editText.setText(Content);
             }
         });
 
@@ -124,6 +127,8 @@ public class Fragment1 extends Fragment implements View.OnClickListener {
             FileOutputStream fsOut = getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
             fsOut.write(text.getBytes());
             result = true;
+            Toast.makeText(getContext(), fileName + " is Saved. ", Toast.LENGTH_SHORT).show();
+            fsOut.close();
         }
         catch (Exception e)
         {
@@ -142,16 +147,15 @@ public class Fragment1 extends Fragment implements View.OnClickListener {
             fsIn.read(txt);
             result = new String(txt);
             Log.d("JB", result);
-            if (result == "")
+            if (result.trim() == "")
             {
                 throw new Exception("파일의 내용이 비어있음");
             }
-            btnEdit.setText("수정");
             fsIn.close();
         }
         catch (Exception e)
         {
-            result = "일기 없음";
+            editText.setHint("일기 없음");
             btnEdit.setText("새로 저장");
         }
         return result;

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -15,7 +16,7 @@ import android.widget.Toast;
  * Use the {@link Fragment3#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment3 extends Fragment {
+public class Fragment3 extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,11 +58,44 @@ public class Fragment3 extends Fragment {
         }
     }
 
+    ImageView imageView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_3, container, false);
+        //return inflater.inflate(R.layout.fragment_3, container, false);
+        View view = inflater.inflate(R.layout.fragment_3, container, false);
 
+        view.findViewById(R.id.btn_large).setOnClickListener(this);
+        view.findViewById(R.id.btn_small).setOnClickListener(this);
+
+        imageView = view.findViewById(R.id.image_main);
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_large:
+                changeImageSize(imageView, 1);
+                break;
+            case R.id.btn_small:
+                changeImageSize(imageView, 0);
+                break;
+        }
+    }
+
+    private boolean changeImageSize(ImageView image, int type) {
+        boolean result = false;
+        if (type == 0) {
+            image.setScaleX(image.getScaleX() - 0.1f);
+            image.setScaleY(image.getScaleY() - 0.1f);
+        } else if (type == 1) {
+            image.setScaleX(image.getScaleX() + 0.1f);
+            image.setScaleY(image.getScaleY() + 0.1f);
+        }
+        return result;
     }
 }
