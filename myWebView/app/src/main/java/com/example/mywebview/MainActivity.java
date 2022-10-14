@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         EditText id = dlgView.findViewById(R.id.dlg_id);
                         String nickname = id.getText().toString().trim();
-                        setTitle(nickname.length() > 0 ? id.getText().toString() : getTitle());
+                        setTitle(nickname.length() > 0 ? id.getText().toString() + "의 검색기" : getTitle());
                     }
                 })
                         .show();
@@ -100,6 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finishAffinity();
                 System.runFinalization();
                 System.exit(0);
+                break;
+
+            case R.id.menu4:
+                Intent intent = new Intent(MainActivity.this, SpinnerActivity.class);
+                startActivity(intent);
                 break;
         }
         return true;

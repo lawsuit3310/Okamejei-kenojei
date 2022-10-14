@@ -9,4 +9,7 @@
     <item
         android:title="종료"
         android:id="@+id/menu3"/>
+    <item
+        android:title="스피너 연습"
+        android:id="@+id/menu4"/>
 </menu>
