@@ -1,8 +1,10 @@
 package com.example.mywebview;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -70,10 +72,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
             case R.id.menu1:
-                Log.d("JB", "item1");
+                AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+                dlg.setTitle("안녕하세요")
+                        .setPositiveButton("확인", null)
+                        .setMessage("내용을 써봅시다")
+                        .setIcon(R.drawable.logo_google)
+                        .show();
                 break;
             case R.id.menu2:
-                Log.d("JB", "item2");
+                View dlgView = View.inflate(this, R.layout.profile, null);
+                AlertDialog.Builder dlg2 = new AlertDialog.Builder(this);
+                dlg2.setTitle("안녕하세요")
+                        .setView(dlgView)
+                        .setNegativeButton("취소", null)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText id = dlgView.findViewById(R.id.dlg_id);
+                        String nickname = id.getText().toString().trim();
+                        setTitle(nickname.length() > 0 ? id.getText().toString() : getTitle());
+                    }
+                })
+                        .show();
+
                 break;
             case R.id.menu3:
                 finishAffinity();
