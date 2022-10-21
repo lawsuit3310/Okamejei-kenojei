@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
@@ -17,11 +18,19 @@ import android.webkit.*;
 import android.widget.*;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText editUrl;
+    Spinner history;
     WebView webView;
+    ArrayAdapter<String> historyAdaper;
+    ArrayList<String> items;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,19 +38,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         editUrl = findViewById(R.id.editUrl);
         webView = findViewById(R.id.webView);
+        history = findViewById(R.id.History);
+
+        items = new ArrayList<String>();
+
+        historyAdaper = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
+
+        history.setAdapter(historyAdaper);
+
+        history.setVisibility(View.GONE);
 
         findViewById(R.id.btnClear).setOnClickListener(this);
         findViewById(R.id.btnGoNaver).setOnClickListener(this);
         findViewById(R.id.btnGoGoogle).setOnClickListener(this);
         findViewById(R.id.btnBack).setOnClickListener(this);
 
+        history.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editUrl.setText(history.getItemAtPosition(position).toString());
+                findViewById(R.id.btnGoGoogle).performClick();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         webView.setWebViewClient(new WebViewClient());
+        editUrl.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    history.setVisibility(View.VISIBLE);
+                else
+                    history.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editUrl.getWindowToken(),0);
+
         switch(v.getId())
         {
             case R.id.btnClear:
@@ -49,14 +89,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnGoNaver:
                 webView.loadUrl("http://search.naver.com/search.naver?query=" + editUrl.getText().toString());
+                addHistoryData(editUrl.getText().toString().trim());
                 break;
             case R.id.btnGoGoogle:
                 webView.loadUrl("http://www.google.com/search?q=" + editUrl.getText().toString());
+                addHistoryData(editUrl.getText().toString().trim());
                 break;
             case R.id.btnBack:
                 webView.goBack();
                 break;
         }
+        historyAdaper.notifyDataSetChanged();
+    }
+
+    private void addHistoryData(String data){
+        if(!items.contains(data))
+            items.add(0,data);
+        if(items.size()>5)
+            items.remove(5);
     }
 
     @Override
